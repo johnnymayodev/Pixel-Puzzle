@@ -1,6 +1,6 @@
-<p align="center" style="margin: 40px;">
-  <img src="static/imgs/Pixel_Puzzle_Logo_Rectangle.jpg" alt="Pixel Puzzle Logo" width="300" style="scale: 1.6; border-radius: 8px;" />
-</p>
+<div align="center">
+  <img src="static/imgs/Pixel_Puzzle_Logo_Rectangle.jpg" alt="Pixel Puzzle Logo" width="400"/>
+</div>
 
 # Pixel Puzzle
 
