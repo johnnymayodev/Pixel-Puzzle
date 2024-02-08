@@ -1,5 +1,5 @@
-<p align="center" style="margin-bottom: 50px;">
-  <img src="static/imgs/logo.png" alt="Pixel Puzzle Logo" width="200" style="background-color: #f8f8f8; padding: 14px 9px 12px 16px; scale: 1.5; border-radius: 8px;" />
+<p align="center" style="margin: 40px;">
+  <img src="static/imgs/Pixel_Puzzle_Logo_Rectangle.jpg" alt="Pixel Puzzle Logo" width="300" style="scale: 1.6; border-radius: 8px;" />
 </p>
 
 # Pixel Puzzle
