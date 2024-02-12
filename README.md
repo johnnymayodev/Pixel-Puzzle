@@ -47,6 +47,8 @@ Create a full-stack web application/game that includes the core features necessa
      - The player has a limited number of guesses to guess the image
    - Hard mode
      - There are no hints at all
+2. Input Verification
+   - Utilize synonyms list from WordsAPI to check if user's input is acceptable
 
 ### Priority 2
 
