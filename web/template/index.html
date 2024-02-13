@@ -3,11 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Pixel Puzzle</title>
   </head>
   <body>
-    <img src="" alt="This is the image" />
+    <img src="static/imgs/apple_blurry.jpg" alt="This is the image" />
     <input type="text" name="name" id="name" />
-    <input type="submit" value="submit" />
+    <button id="submit">Submit</button>
   </body>
+  <script>
+    var guess = "";
+
+    function send_guess(guess) {
+      fetch("/guess/" + guess)
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (data) {
+          console.log("Response from server: " + data);
+          check_guess(data);
+        });
+    }
+
+    function check_guess(guess) {
+      if (guess === "CORRECT") {
+        alert("You got it!");
+      } else {
+        alert("Try again!");
+      }
+    }
+
+    document.getElementById("submit").addEventListener("click", function () {
+      if (document.getElementById("name").value !== "") {
+        guess = document.getElementById("name").value;
+        send_guess(guess);
+      }
+    });
+  </script>
 </html>
