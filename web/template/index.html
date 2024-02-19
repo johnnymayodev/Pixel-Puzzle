@@ -12,6 +12,7 @@
   </body>
   <script>
     var guess = "";
+    var wrong_guesses = 0;
 
     function send_guess(guess) {
       fetch("/guess/" + guess)
@@ -29,6 +30,28 @@
         alert("You got it!");
       } else {
         alert("Try again!");
+        wrong_guesses++;
+
+        if (wrong_guesses === 2) {
+          // make image less blurry
+        }
+
+        if (wrong_guesses === 3) {
+          // give category hint
+        }
+
+        if (wrong_guesses === 4) {
+          // add color to image
+        }
+
+        if (wrong_guesses === 5) {
+          // make image less blurry
+        }
+
+        if (wrong_guesses === 6) {
+          // fail?
+        }
+
       }
     }
 

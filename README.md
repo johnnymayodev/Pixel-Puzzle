@@ -12,6 +12,8 @@ An engaging and interactive image guessing game where players are presented with
 
 Commands are written for macOS. Windows and Linux users should adjust accordingly.
 
+### Frontend
+
 1. Clone the repository and navigate to the project directory in your terminal
 
 2. Create a virtual environment
