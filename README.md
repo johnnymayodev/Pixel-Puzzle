@@ -14,6 +14,26 @@ Commands are written for macOS. Windows and Linux users should adjust accordingl
 
 ### Frontend
 
+#### Run via bash script
+
+1. Clone the repository and navigate to the project directory in your terminal
+
+3. Give the bash script permission to execute by the user
+
+```bash
+chmod u+x ./web/run.sh
+```
+
+3. Run the bash script
+
+```bash
+./web/run.sh
+```
+
+4. Open your web browser and go to `http://localhost:8090/`
+
+#### Run Manually
+
 1. Clone the repository and navigate to the project directory in your terminal
 
 2. Create a virtual environment
