@@ -1,10 +1,43 @@
-import OBJECTS_DATA from './objects.js';
-const OBJECTS_JSON = JSON.parse(OBJECTS_DATA);
+const log = console.log; // shortcut for console.log
 
-const startTime = new Date().getTime();
+var guess = ""; // the user's guess
+var wrong_guesses = 0; // the number of wrong guesses the user has made
 
-var guess = "";
-var wrong_guesses = 0;
+var temp = fetch("static/json/apple.json")
+  .then((response) => response.json())
+  .then((data) => {
+    globalThis.the_object = data;
+    initGame();
+  });
+
+
+
+function initGame() {
+
+  log("The object is: ", the_object);
+
+  const startTime = new Date().getTime();
+  const hintsContainer = document.getElementById("hints-container");
+  const img = document.getElementById("image");
+
+  globalThis.startTime = startTime;
+  globalThis.hintsContainer = hintsContainer;
+  globalThis.img = img;
+  
+  img.src = `static/imgs/${the_object.imgs[1]}`;
+
+  document.getElementById("submit").addEventListener("click", function () {
+    if (document.getElementById("name").value !== "") {
+      guess = document.getElementById("name").value;
+      send_guess(guess);
+    }
+  });
+
+}
+
+
+
+
 
 function send_guess(guess) {
   fetch("/guess/" + guess)
@@ -16,16 +49,15 @@ function send_guess(guess) {
       check_guess(data);
     });
 }
-const hintsContainer = document.getElementById("hints-container");
+
 function add_hint(hint){
     let display =``;
-    const object = OBJECTS_JSON[0];
     switch (hint){
         case "firstLetter":
-            display = `<h3>${object.name[0]}</h3>`;
+            display = `<h3>The first letter is ${the_object.name[0]}</h3>`;
             break;
         case "category":
-            display = `<p>${object.category}</p>`;
+            display = `<p>The category is ${the_object.category}</p>`;
             break;
         default:
             break;
@@ -44,6 +76,7 @@ function check_guess(guess) {
     const endTime = new Date().getTime();
     document.getElementById("submit").disabled = true; // stop the player from guessing
     const time = (endTime - startTime) / 1000;
+    img.src = `static/imgs/${the_object.imgs[0]}`;
     console.log(`You guessed correctly in ${time} seconds`);
   } else {
     console.log("Wrong guess");
@@ -58,11 +91,12 @@ function check_guess(guess) {
     if (wrong_guesses === 3) {
       // give category hint
       add_hint("category");
-      console.log("Hint: This is a fruit");
+      console.log(`Hint: ${the_object.category}`);
     }
 
     if (wrong_guesses === 4) {
-      // make image less blurry
+      // make image less blurry and give first letter hint
+      add_hint("firstLetter");
       console.log("Making image less blurry");
     }
 
@@ -79,10 +113,3 @@ function check_guess(guess) {
 
   }
 }
-
-document.getElementById("submit").addEventListener("click", function () {
-  if (document.getElementById("name").value !== "") {
-    guess = document.getElementById("name").value;
-    send_guess(guess);
-  }
-});
