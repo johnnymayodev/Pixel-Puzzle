@@ -4,6 +4,7 @@ DIR=$(pwd | grep -o '[^/]*$')
 
 if [ $DIR != "Pixel-Puzzle" ]; then
     echo "Please run the script from the Pixel-Puzzle directory"
+    exit 1
 fi
 
 
