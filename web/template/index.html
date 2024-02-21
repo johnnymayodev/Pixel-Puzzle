@@ -7,75 +7,12 @@
   </head>
   <body>
     <h1>open the console (F12)</h1> <!-- this will be removed -->
-    <img src="static/imgs/apple_blurry.jpg" alt="This is the image" />
+    <img id="image" src="" alt="This is the image" />
     <br />
-    <input type="text" name="name" id="name" />
+    <input id="name" type="text" name="name" />
     <button id="submit">Submit</button> <!-- this will be replaced by pressing enter -->
+    <div id="hints-container"></div>
   </body>
-  <script>
-    const log = console.log;
-
-    const startTime = new Date().getTime();
-
-    var guess = "";
-    var wrong_guesses = 0;
-
-    function send_guess(guess) {
-      fetch("/guess/" + guess)
-        .then(function (response) {
-          return response.text();
-        })
-        .then(function (data) {
-          console.log("Response from server: " + data);
-          check_guess(data);
-        });
-    }
-
-    function check_guess(guess) {
-      if (guess === "CORRECT") {
-        const endTime = new Date().getTime();
-        document.getElementById("submit").disabled = true; // stop the player from guessing
-        const time = (endTime - startTime) / 1000;
-        log(`You guessed correctly in ${time} seconds`);
-      } else {
-        log("Wrong guess");
-        wrong_guesses++;
-        log(wrong_guesses);
-
-        if (wrong_guesses === 2) {
-          // add color to image
-          log("Adding color to image");
-        }
-
-        if (wrong_guesses === 3) {
-          // give category hint
-          log("Hint: This is a fruit");
-        }
-
-        if (wrong_guesses === 4) {
-          // make image less blurry
-          log("Making image less blurry");
-        }
-
-        if (wrong_guesses === 5) {
-          // make image less blurry
-          log("Making image less blurry");
-        }
-
-        if (wrong_guesses === 6) {
-          // fail?
-          log("You failed");
-          document.getElementById("submit").disabled = true; // stop the player from guessing
-        }
-
-      }
-    }
-
-    document.getElementById("submit").addEventListener("click", function () {
-      if (document.getElementById("name").value !== "") {
-        guess = document.getElementById("name").value;
-        send_guess(guess);
-      }
-    });
+  <script type="module" src="../static/js/index.js">
   </script>
 </html>

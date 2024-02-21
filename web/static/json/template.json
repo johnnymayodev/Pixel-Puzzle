@@ -1,0 +1,7 @@
+[
+    {
+        "name" : "{OBJECT}",
+        "category" : "{OBJECT CATEGORY}",
+        "imgs": ["{OBJECT}.jpg", "{OBJECT}_max_blurry.jpg", "{OBJECT}_mid_blurry.jpg", "{OBJECT}_min_blurry.jpg"]
+    }
+]
