@@ -80,7 +80,7 @@ Create a full-stack web application/game that includes the core features necessa
 - **Frontend**: HTML, CSS, JavaScript
 - **Database**: [PocketBase](https://pocketbase.io/)
 - **Backend**: [Node.js](https://nodejs.org/en) with PocketBase
-- **Backend**: Python for image processing
+- **Backend**: Python for frontend hosting and image processing
 
 ##### Pros
 
