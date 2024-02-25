@@ -3,13 +3,12 @@ const log = console.log; // shortcut for console.log
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
 
-var temp = fetch("static/json/apple.json")
+fetch("/get_image_url")
   .then((response) => response.json())
   .then((data) => {
     globalThis.the_object = data;
     initGame();
   });
-
 
 
 function initGame() {
@@ -24,7 +23,8 @@ function initGame() {
   globalThis.hintsContainer = hintsContainer;
   globalThis.img = img;
   
-  img.src = `static/imgs/${the_object.imgs[1]}`;
+  img.src = the_object.image_url;
+  img.style.width = "300px";
 
   document.getElementById("submit").addEventListener("click", function () {
     if (document.getElementById("name").value !== "") {

@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import api
 
 app = Flask(__name__, template_folder="./template", static_folder="./static")
 port = 8090
@@ -21,6 +22,13 @@ def guess(guess):
     else:
         return "WRONG"
 
+@app.route('/get_image_url', methods=['GET'])
+def get_image_url():
+    img_url = api.make_api_call()
+    if img_url:
+        return jsonify({'image_url': img_url})
+    else:
+        return jsonify({'error': 'Failed to retrieve image URL'}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=port)
