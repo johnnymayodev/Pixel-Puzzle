@@ -22,9 +22,9 @@ def guess(guess):
     else:
         return "WRONG"
 
-@app.route('/get_image_url', methods=['GET'])
-def get_image_url():
-    img_url = api.make_api_call()
+@app.route('/get_image_url/<object_name>', methods=['GET'])
+def get_image_url(object_name):
+    img_url = api.make_api_call(object_name)
     if img_url:
         return jsonify({'image_url': img_url})
     else:

@@ -3,12 +3,34 @@ const log = console.log; // shortcut for console.log
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
 
-fetch("/get_image_url")
-  .then((response) => response.json())
-  .then((data) => {
-    globalThis.the_object = data;
-    initGame();
-  });
+var object_name = "apple"
+
+// Check if the image URL is already available in localStorage
+const storedObject = localStorage.getItem(object_name);
+if (storedObject) {
+  log('Object found in localStorage:', storedObject);
+  // globalThis.the_object = JSON.parse(storedObject);
+  fetch("static/json/apple.json")
+    .then((response) => response.json())
+    .then((data) => {
+      globalThis.the_object = data;
+      initGame();
+    });
+} else {
+  log('Object NOT found in localStorage, fetching from server...');
+  // If not, fetch the image URL
+  fetch("/get_image_url/" + object_name)
+    .then((response) => response.json())
+    .then((data) => {
+      globalThis.the_object = data;
+      // Store the fetched data in localStorage
+      localStorage.setItem(object_name, JSON.stringify(data));
+      initGame(); // Call initGame() after fetching the image URL
+    })
+    .catch((error) => {
+      console.error('Error fetching image URL:', error);
+    });
+}
 
 
 function initGame() {
@@ -22,8 +44,8 @@ function initGame() {
   globalThis.startTime = startTime;
   globalThis.hintsContainer = hintsContainer;
   globalThis.img = img;
-  
-  img.src = the_object.image_url;
+
+  img.src = storedObject ? `static/imgs/${the_object.imgs[1]}` : the_object.image_url;
   img.style.width = "300px";
 
   document.getElementById("submit").addEventListener("click", function () {
@@ -50,26 +72,26 @@ function send_guess(guess) {
     });
 }
 
-function add_hint(hint){
-    let display =``;
-    switch (hint){
-        case "firstLetter":
-            display = `<h3>The first letter is ${the_object.name[0]}</h3>`;
-            break;
-        case "category":
-            display = `<p>The category is ${the_object.category}</p>`;
-            break;
-        default:
-            break;
-    }
-
-    let card = document.createElement("div");
-    card.innerHTML = display;
-
-    card.classList.add("hint-card");
-
-    hintsContainer.appendChild(card);
+function add_hint(hint) {
+  let display = ``;
+  switch (hint) {
+    case "firstLetter":
+      display = `<h3>The first letter is ${the_object.name[0]}</h3>`;
+      break;
+    case "category":
+      display = `<p>The category is ${the_object.category}</p>`;
+      break;
+    default:
+      break;
   }
+
+  let card = document.createElement("div");
+  card.innerHTML = display;
+
+  card.classList.add("hint-card");
+
+  hintsContainer.appendChild(card);
+}
 
 function check_guess(guess) {
   if (guess === "CORRECT") {
@@ -84,24 +106,27 @@ function check_guess(guess) {
     console.log(wrong_guesses);
 
     if (wrong_guesses === 2) {
-      // add color to image
-      console.log("Adding color to image");
+      // make image less blurry
+      img.src = `static/imgs/${the_object.imgs[2]}`;
+      console.log("Making image less blurry");
     }
 
     if (wrong_guesses === 3) {
+      // add color to image
+      img.src = `static/imgs/${the_object.imgs[3]}`;
+      console.log("Adding color to image");
+    }
+
+    if (wrong_guesses === 4) {
       // give category hint
       add_hint("category");
       console.log(`Hint: ${the_object.category}`);
     }
 
-    if (wrong_guesses === 4) {
+    if (wrong_guesses === 5) {
       // make image less blurry and give first letter hint
       add_hint("firstLetter");
-      console.log("Making image less blurry");
-    }
-
-    if (wrong_guesses === 5) {
-      // make image less blurry
+      img.src = `static/imgs/${the_object.imgs[4]}`;
       console.log("Making image less blurry");
     }
 

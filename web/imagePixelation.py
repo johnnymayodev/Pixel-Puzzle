@@ -34,7 +34,7 @@ def save_image_with_variations(object_name, im):
     try:
         for i, (resize_percentage, grayscale, suffix) in enumerate(zip(RESIZE_PERCENTAGES, GRAYS, FILENAME_SUFFIXES)):
             filename = f"{object_name}{suffix}.jpg"
-            new_im = pixelate(im, im.size[0] if resize_percentage is None else resize_percentage, grayscale)
+            new_im = pixelate(im, im.size[0] if resize_percentage is None else int(resize_percentage/ 500 * max(im.size[0], im.size[1])), grayscale)            
             if new_im:
                 new_im.save(f"{OUTPUT_DIR}/{filename}")
     except Exception as e:
