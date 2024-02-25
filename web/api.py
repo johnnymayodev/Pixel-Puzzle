@@ -1,13 +1,13 @@
 import requests
 import config
 
-def make_api_call():
+def make_api_call(object_name):
     url = "https://api.pexels.com/v1/search"
     headers = {
         "Authorization": config.api_key
     }
     params = {
-        "query": "nature",
+        "query": object_name,
         "per_page": 1
     }
 
@@ -21,11 +21,4 @@ def make_api_call():
         print("Error making API request:", e)
         return None
 
-
-img_url = make_api_call()
-if img_url:
-    print(img_url)
-
-else:
-    print("Failed to retrieve API response.")
 

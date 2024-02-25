@@ -3,12 +3,29 @@ const log = console.log; // shortcut for console.log
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
 
-fetch("/get_image_url")
-  .then((response) => response.json())
-  .then((data) => {
-    globalThis.the_object = data;
-    initGame();
-  });
+var object_name = "apple"
+
+// Check if the image URL is already available in localStorage
+const storedObject = localStorage.getItem(object_name);
+if (storedObject) {
+  log('Object found in localStorage:', storedObject);
+  globalThis.the_object = JSON.parse(storedObject);
+  initGame();
+} else {
+  log('Object NOT found in localStorage, fetching from server...');
+  // If not, fetch the image URL
+  fetch("/get_image_url/" + object_name)
+    .then((response) => response.json())
+    .then((data) => {
+      globalThis.the_object = data;
+      // Store the fetched data in localStorage
+      localStorage.setItem(object_name, JSON.stringify(data));
+      initGame(); // Call initGame() after fetching the image URL
+    })
+    .catch((error) => {
+      console.error('Error fetching image URL:', error);
+    });
+}
 
 
 function initGame() {
