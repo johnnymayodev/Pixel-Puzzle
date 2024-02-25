@@ -55,5 +55,5 @@ def saveImages(object_name, image_path_or_url):
 
 # Uncomment to test
 # saveImages('nature', 'https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg')
-# saveImages('apple', 'web/static/imgs/apple.jpg')
+saveImages('apple', 'web/static/imgs/apple.jpg')
 # saveImages('acm-logo', 'web/static/imgs/acm-logo.jpg')
