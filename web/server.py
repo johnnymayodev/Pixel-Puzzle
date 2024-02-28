@@ -1,4 +1,12 @@
 from flask import Flask, render_template, jsonify
+
+import os
+import sys
+
+script_path = os.path.dirname(__file__)
+module_path = os.path.join(script_path, "..", "backend")
+sys.path.append(module_path)
+
 import api
 
 app = Flask(__name__, template_folder="./template", static_folder="./static")
