@@ -9,9 +9,11 @@ load_dotenv()
 
 KEY = os.getenv("KEY")
 
+# Variables for the API request
 HEADERS = {"Authorization": KEY}
 PARAMETERS = {"per_page": 1}
 
+# Variables for the image maker
 NUMBER_OF_IMAGES = 4
 IMAGE_SIZE = 1600
 BLUR_SCALE = 48
