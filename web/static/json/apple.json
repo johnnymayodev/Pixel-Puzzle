@@ -1,5 +1,5 @@
 {
     "name" : "Apple",
     "category" : "Fruit",
-    "imgs": ["apple.jpg", "apple_black_white.jpg", "apple_max_blurry.jpg", "apple_mid_blurry.jpg", "apple_min_blurry.jpg"]
+    "imgs": ["apple.jpg", "obj_1.jpg", "obj_2.jpg", "obj_3.jpg", "obj_4.jpg"]
 }
