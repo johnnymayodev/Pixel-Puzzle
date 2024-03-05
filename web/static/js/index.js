@@ -15,6 +15,8 @@ function initGame() {
   globalThis.hintsContainer = hintsContainer;
   globalThis.img = img;
 
+  // listen for the user to submit a guess
+  // this will be changed to always listen for key presses and enter will submit the guess
   document.getElementById("submit").addEventListener("click", function () {
     // only send the guess if the user has entered something
     if (document.getElementById("name").value !== "") {
