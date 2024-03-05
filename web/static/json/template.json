@@ -1,7 +1,5 @@
-[
-    {
-        "name" : "{OBJECT}",
-        "category" : "{OBJECT CATEGORY}",
-        "imgs": ["{OBJECT}.jpg", "{OBJECT}_max_blurry.jpg", "{OBJECT}_mid_blurry.jpg", "{OBJECT}_min_blurry.jpg"]
-    }
-]
+{
+  "name": "{OBJECT}",
+  "category": "{OBJECT CATEGORY}",
+  "imgs": ["{OBJECT}.jpg", "obj_1.jpg", "obj_2.jpg", "obj_3.jpg", "obj_4.jpg"]
+}
