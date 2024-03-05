@@ -36,7 +36,8 @@ def guess(guess):
         return "WRONG"
 
 
-def print_time():
+# loop that runs every minute and checks if it's time to pick out a new object
+def check_time_job():
     time.sleep(3)  # wait for the server to start
     while True:
         if time.strftime("%H:%M") == NEW_OBJECT_TIME:
@@ -50,6 +51,7 @@ if __name__ == "__main__":
     api.download_images(CORRECT_ANSWER)
 
     if not DEBUG:
-        clock = multiprocessing.Process(target=print_time)
+        clock = multiprocessing.Process(target=check_time_job)
         clock.start()
+
     app.run(port=port, debug=DEBUG)
