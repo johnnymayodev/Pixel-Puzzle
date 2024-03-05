@@ -1,5 +1,4 @@
 const log = console.log; // shortcut for console.log
-log("Hello, world!");
 
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
@@ -15,7 +14,6 @@ function initGame() {
 
   document.getElementById("submit").addEventListener("click", function () {
     if (document.getElementById("name").value !== "") {
-      log("Button clicked");
       guess = document.getElementById("name").value;
       send_guess(guess);
     }
@@ -39,9 +37,9 @@ function check_guess(response) {
     img.src = `static/imgs/${the_object.imgs[0]}`;
     log(`You guessed correctly in ${time} seconds`);
   } else {
-    log("Wrong guess");
+    
     wrong_guesses++;
-    log(wrong_guesses);
+    log("Wrong guess " + wrong_guesses);
 
     if (wrong_guesses === 2) {
       // make image less blurry
