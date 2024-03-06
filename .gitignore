@@ -1,4 +1,6 @@
 .DS_Store
 venv
-config.py
+.env
 __pycache__
+
+web/static/imgs/*

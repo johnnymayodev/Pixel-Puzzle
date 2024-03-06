@@ -3,138 +3,101 @@ const log = console.log; // shortcut for console.log
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
 
-var object_name = "apple"
-
-// Check if the image URL is already available in localStorage
-const storedObject = localStorage.getItem(object_name);
-if (storedObject) {
-  log('Object found in localStorage:', storedObject);
-  // globalThis.the_object = JSON.parse(storedObject);
-  fetch("static/json/apple.json")
-    .then((response) => response.json())
-    .then((data) => {
-      globalThis.the_object = data;
-      initGame();
-    });
-} else {
-  log('Object NOT found in localStorage, fetching from server...');
-  // If not, fetch the image URL
-  fetch("/get_image_url/" + object_name)
-    .then((response) => response.json())
-    .then((data) => {
-      globalThis.the_object = data;
-      // Store the fetched data in localStorage
-      localStorage.setItem(object_name, JSON.stringify(data));
-      initGame(); // Call initGame() after fetching the image URL
-    })
-    .catch((error) => {
-      console.error('Error fetching image URL:', error);
-    });
-}
-
-
 function initGame() {
-
-  log("The object is: ", the_object);
-
   const startTime = new Date().getTime();
+
+  // get the elements from the DOM
   const hintsContainer = document.getElementById("hints-container");
   const img = document.getElementById("image");
 
+  // set the global variables
   globalThis.startTime = startTime;
   globalThis.hintsContainer = hintsContainer;
   globalThis.img = img;
 
-  img.src = storedObject ? `static/imgs/${the_object.imgs[1]}` : the_object.image_url;
-  img.style.width = "300px";
-
+  // listen for the user to submit a guess
+  // this will be changed to always listen for key presses and enter will submit the guess
   document.getElementById("submit").addEventListener("click", function () {
+    // only send the guess if the user has entered something
     if (document.getElementById("name").value !== "") {
       guess = document.getElementById("name").value;
       send_guess(guess);
     }
   });
-
 }
 
-
-
-
-
 function send_guess(guess) {
+  // send the guess to the server
+  // the response will either be "CORRECT" or "WRONG"
   fetch("/guess/" + guess)
-    .then(function (response) {
-      return response.text();
-    })
-    .then(function (data) {
-      console.log("Response from server: " + data);
+    .then((response) => response.text())
+    .then((data) => {
+      log("Response from server: " + data);
       check_guess(data);
     });
 }
 
-function add_hint(hint) {
-  let display = ``;
-  switch (hint) {
-    case "firstLetter":
-      display = `<h3>The first letter is ${the_object.name[0]}</h3>`;
-      break;
-    case "category":
-      display = `<p>The category is ${the_object.category}</p>`;
-      break;
-    default:
-      break;
-  }
-
-  let card = document.createElement("div");
-  card.innerHTML = display;
-
-  card.classList.add("hint-card");
-
-  hintsContainer.appendChild(card);
-}
-
-function check_guess(guess) {
-  if (guess === "CORRECT") {
+function check_guess(response) {
+  if (response === "CORRECT") {
     const endTime = new Date().getTime();
-    document.getElementById("submit").disabled = true; // stop the player from guessing
+
+    // stop the player from guessing
+    document.getElementById("submit").disabled = true;
+
+    // calculate time taken to get the correct answer
     const time = (endTime - startTime) / 1000;
+
+    // make image the original image
     img.src = `static/imgs/${the_object.imgs[0]}`;
-    console.log(`You guessed correctly in ${time} seconds`);
+
+    log(`You guessed correctly in ${time} seconds`);
   } else {
-    console.log("Wrong guess");
+    // the guess was wrong
     wrong_guesses++;
-    console.log(wrong_guesses);
+    log("Wrong guess " + wrong_guesses);
+
+    // if the player makes 1 wrong guess, don't do anything
 
     if (wrong_guesses === 2) {
       // make image less blurry
       img.src = `static/imgs/${the_object.imgs[2]}`;
-      console.log("Making image less blurry");
+      log("Making image less blurry");
     }
 
     if (wrong_guesses === 3) {
       // add color to image
       img.src = `static/imgs/${the_object.imgs[3]}`;
-      console.log("Adding color to image");
+      log("Adding color to image");
     }
 
     if (wrong_guesses === 4) {
       // give category hint
-      add_hint("category");
-      console.log(`Hint: ${the_object.category}`);
+      log(`Hint: ${the_object.category}`);
     }
 
     if (wrong_guesses === 5) {
       // make image less blurry and give first letter hint
-      add_hint("firstLetter");
       img.src = `static/imgs/${the_object.imgs[4]}`;
-      console.log("Making image less blurry");
+      log("Making image less blurry");
     }
 
+    // if the player makes 6 wrong guesses, they fail
     if (wrong_guesses === 6) {
-      // fail?
-      console.log("You failed");
+      log("You failed");
       document.getElementById("submit").disabled = true; // stop the player from guessing
     }
-
   }
 }
+
+// get the object from the file and run the game
+// need to get the name of the json from the server
+fetch("static/json/apple.json")
+  .then((response) => response.json())
+  .then((data) => {
+    globalThis.the_object = data;
+    log(the_object);
+  })
+  .then((data) => {
+    initGame();
+    return data;
+  });
