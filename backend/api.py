@@ -43,6 +43,10 @@ def download_images(obj):
         data = response.json()
         img_url = data["photos"][0]["src"]["original"]
         response = requests.get(img_url)
+        
+        # check if imgs folder exists and create it if it doesn't
+        if not os.path.exists("web/static/imgs"):
+            os.makedirs("web/static/imgs")
 
         # save the image
         with open(f"web/static/imgs/{obj}.jpg", "wb") as file:
