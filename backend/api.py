@@ -3,15 +3,7 @@ import requests
 from PIL import Image, ImageFilter
 from dotenv import load_dotenv
 
-
-# get the API key for Pexels
 load_dotenv()
-
-KEY = os.getenv("KEY")
-
-# Variables for the API request
-HEADERS = {"Authorization": KEY}
-PARAMETERS = {"per_page": 1}
 
 # Variables for the image maker
 NUMBER_OF_IMAGES = 4
@@ -23,6 +15,13 @@ FILE_NAMES = ["obj_1", "obj_2", "obj_3", "obj_4"]
 
 
 def download_images(obj):
+    # get the API key for Pexels
+
+    PEXEL_API_KEY = os.getenv("PEXEL_API_KEY")
+
+    # Variables for the API request
+    HEADERS = {"Authorization": PEXEL_API_KEY}
+    PARAMETERS = {"per_page": 1}
     print("Downloading images for", obj)
 
     url = "https://api.pexels.com/v1/search"
@@ -73,3 +72,15 @@ def image_maker(obj):
             im.save(f"web/static/imgs/{FILE_NAMES[i]}.jpg")  # save the image
         except Exception as e:
             print("An error occurred:", e)
+
+def get_synonyms(obj):
+    THESAURUS_API_KEY = os.getenv("THESAURUS_API_KEY")
+    print(THESAURUS_API_KEY)
+    url = 'https://api.api-ninjas.com/v1/thesaurus?word={}'.format(obj)
+    response = requests.get(url, headers={'X-Api-Key': THESAURUS_API_KEY})
+    if response.status_code == requests.codes.ok:
+        data = response.json()
+        return data["synonyms"]
+    else:
+        print("Error:", response.status_code, response.text)
+        return None
