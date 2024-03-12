@@ -73,12 +73,14 @@ def image_maker(obj):
         except Exception as e:
             print("An error occurred:", e)
 
-def get_synonym(obj):
+def get_synonyms(obj):
     THESAURUS_API_KEY = os.getenv("THESAURUS_API_KEY")
     print(THESAURUS_API_KEY)
     url = 'https://api.api-ninjas.com/v1/thesaurus?word={}'.format(obj)
     response = requests.get(url, headers={'X-Api-Key': THESAURUS_API_KEY})
     if response.status_code == requests.codes.ok:
-        print(response.text)
+        data = response.json()
+        return data["synonyms"]
     else:
         print("Error:", response.status_code, response.text)
+        return None
