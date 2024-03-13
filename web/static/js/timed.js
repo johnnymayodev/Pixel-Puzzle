@@ -106,3 +106,16 @@ function initGame() {
     log(`You guessed ${correct_guesses} images`);
     document.getElementById("submit").disabled = true; // stop player from guessing
   }
+
+// get the object from the file and run the game
+// need to get the name of the json from the server
+fetch("static/json/apple.json")
+.then((response) => response.json())
+.then((data) => {
+  globalThis.the_object = data;
+  log(the_object);
+})
+.then((data) => {
+  initGame();
+  return data;
+});
