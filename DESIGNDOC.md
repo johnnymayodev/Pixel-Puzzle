@@ -29,16 +29,16 @@ Create a full-stack web application/game that includes the core features necessa
    - For example, the first letter of the word
    - The category of the object
    - Add color to the image (only if the image starts as black and white)
-4. Wordle-like gamemode
+
+### Priority 1
+
+1. Wordle-like gamemode
    - There is a new image every day
      - We can put the date into a hash function to pick a unique new image
    - Time the player to see how quickly they can guess the image
      - If a leaderboard is implemented, the player can see how they compare to others
-   - A button to copy your time for today's image and share it with others
-
-### Priority 1
-
-1. Different gamemodes
+   - Popup showing your score and time
+2. Different gamemodes
    - Endless
      - Practice your image guessing skills endlessly
    - Timed
@@ -47,8 +47,11 @@ Create a full-stack web application/game that includes the core features necessa
      - The player has a limited number of guesses to guess the image
    - Hard mode
      - There are no hints at all
-2. Input Verification
+3. Input Verification
    - Utilize synonyms list from WordsAPI to check if user's input is acceptable
+4. Sharing Button
+   - A button to copy your time for today's image and share it with others
+   - Link and score
 
 ### Priority 2
 
