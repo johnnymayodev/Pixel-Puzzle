@@ -30,7 +30,10 @@ def index():
 
 @app.route("/guess/<guess>")
 def guess(guess):
-    if guess.lower() == CORRECT_ANSWER:
+    synonyms = api.get_synonyms(guess)
+    if None:
+        print("Error: Unable to retrieve synonyms for the given word.")
+    if guess.lower() == CORRECT_ANSWER or CORRECT_ANSWER in synonyms:
         return "CORRECT"
     else:
         return "WRONG"
