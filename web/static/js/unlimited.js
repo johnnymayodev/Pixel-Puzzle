@@ -1,9 +1,8 @@
-const log = console.log;
+const log = console.log; // shortcut for console.log
 
-var guess = "";
+var guess = ""; // the user's guess
 var correct_guesses = 0;
-var wrong_guesses = 0;
-setTimeout(endGame, 60000); //end game in 60 seconds
+var wrong_guesses = 0; // the number of wrong guesses the user has made
 
 function initGame() {
     const startTime = new Date().getTime(); // may remove this
@@ -28,7 +27,7 @@ function initGame() {
     });
   }
 
-  function send_guess(guess) {
+function send_guess(guess) {
     // send the guess to the server
     // the response will either be "CORRECT" or "WRONG"
     fetch("/guess/" + guess)
@@ -89,7 +88,7 @@ function initGame() {
         log("Making image less blurry");
       }
   
-      // if the player makes 6 wrong guesses, the next image
+      // if the player makes 6 wrong guesses, the next i,age
       // is displayed
       if (wrong_guesses === 6) {
         log("Next image");
@@ -101,12 +100,6 @@ function initGame() {
         wrong_guesses = 0;
       }
     }
-  }
-
-  function endGame() {
-    log("Time's up!");
-    log(`You guessed ${correct_guesses} images`);
-    document.getElementById("submit").disabled = true; // stop player from guessing
   }
 
 // get the object from the file and run the game

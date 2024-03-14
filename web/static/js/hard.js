@@ -50,6 +50,7 @@ function check_guess(response) {
       img.src = `static/imgs/${the_object.imgs[0]}`;
   
       log(`You guessed correctly in ${time} seconds with ${wrong_guesses} wrong guesses`);
+      correct_guesses++;
     } 
     // currently leaving the bulk of the else statement around because it wasn't clear
     // if the game will end after a certain amount of wrong guesses
