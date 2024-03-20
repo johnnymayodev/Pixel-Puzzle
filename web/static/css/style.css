@@ -1,0 +1,46 @@
+@import url("../font/inter.css");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: clamp(300px, 80%, 1200px);
+    background-color: salmon;
+    font-family: "Inter";
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3rem;
+    padding: 1rem 0;
+    font-weight: 800;
+}
+
+button {
+    height: 10rem;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+
+#games {
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem;
+}
