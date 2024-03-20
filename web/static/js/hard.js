@@ -52,39 +52,13 @@ function check_guess(response) {
       log(`You guessed correctly in ${time} seconds with ${wrong_guesses} wrong guesses`);
       correct_guesses++;
     } 
-    // currently leaving the bulk of the else statement around because it wasn't clear
-    // if the game will end after a certain amount of wrong guesses
     else {
       // the guess was wrong
       wrong_guesses++;
       log("Wrong guess " + wrong_guesses);
-  
-      // if the player makes 1 wrong guess, don't do anything
-  
-      if (wrong_guesses === 2) {
-        // make image less blurry
-        //img.src = `static/imgs/${the_object.imgs[2]}`;
-        //log("Making image less blurry");
-      }
-  
-      if (wrong_guesses === 3) {
-        // add color to image
-        //img.src = `static/imgs/${the_object.imgs[3]}`;
-        //log("Adding color to image");
-      }
-  
-      if (wrong_guesses === 4) {
-        // give category hint
-        //log(`Hint: ${the_object.category}`);
-      }
-  
-      if (wrong_guesses === 5) {
-        // make image less blurry and give first letter hint
-        //img.src = `static/imgs/${the_object.imgs[4]}`;
-        //log("Making image less blurry");
-      }
-  
-      // if the player makes 6 wrong guesses, they fail
+      // hasn't been made clear if after 6 incorrect guesses the game ends,
+      // if the another image is loaded, or the picture stays until the user
+      // makes a correct guess
       if (wrong_guesses === 6) {
         //log("You failed");
         //document.getElementById("submit").disabled = true; // stop the player from guessing
