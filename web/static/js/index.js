@@ -1,103 +1,131 @@
+console.log("JavaScript is loaded");
 const log = console.log; // shortcut for console.log
 
 var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
+var time = 0; // the time it took for the user to guess the word
+var game_over = false; // whether the game is over or not
 
+// get the elements from the DOM
+const imgElem = document.getElementById("image");
+const inputElem = document.getElementById("input");
+const hintsElem = document.getElementById("hints");
+
+fetch("/api/cheat") // fetch the answer from the server to start the game
+  .then((response) => response.text())
+  .then((data) => {
+    // make data a list
+    data = data.split(",");
+    log("Answers: ", data);
+    globalThis.answer = data;
+    initGame(); // * this is where the game starts
+  });
+
+/**
+ *
+ * @param {string} answer a list of words that are the possible answers (the first word is the most correct answer)
+ * @returns {void}
+ *
+ * This function initializes the game by
+ * * setting the start time
+ * * creating an event listener for keydown events
+ * * handling the user's input
+ * * checking if the user's guess is correct
+ *
+ */
 function initGame() {
-  const startTime = new Date().getTime();
+  globalThis.startTime = new Date().getTime();
 
-  // get the elements from the DOM
-  const hintsContainer = document.getElementById("hints-container");
-  const img = document.getElementById("image");
+  document.addEventListener("keydown", function (event) {
+    if (game_over) return; // if the game is over, return
 
-  // set the global variables
-  globalThis.startTime = startTime;
-  globalThis.hintsContainer = hintsContainer;
-  globalThis.img = img;
+    const key = event.key;
 
-  // listen for the user to submit a guess
-  // this will be changed to always listen for key presses and enter will submit the guess
-  document.getElementById("submit").addEventListener("click", function () {
-    // only send the guess if the user has entered something
-    if (document.getElementById("name").value !== "") {
-      guess = document.getElementById("name").value;
-      send_guess(guess);
+    if (event.metaKey && key === "Backspace") {
+      guess = "";
+      inputElem.innerText = guess;
+      return;
     }
+
+    switch (key) {
+      case "Backspace":
+        if (guess.length === 0) return;
+        guess = guess.slice(0, -1);
+        break;
+
+      case "Enter":
+        if (guess.length === 0) return;
+        handleGuess(guess);
+
+      case key.match(/[a-zA-Z ]/) && key: // if the key is a letter or space
+        if (key.length > 1) return;
+        guess += key;
+        break;
+
+      default:
+        return;
+    }
+
+    inputElem.innerText = guess.toUpperCase(); // update the input element
   });
 }
 
-function send_guess(guess) {
-  // send the guess to the server
-  // the response will either be "CORRECT" or "WRONG"
-  fetch("/guess/" + guess)
-    .then((response) => response.text())
-    .then((data) => {
-      log("Response from server: " + data);
-      check_guess(data);
-    });
-}
+function handleGuess(enteredGuess) {
+  enteredGuess = enteredGuess.toLowerCase();
 
-function check_guess(response) {
-  if (response === "CORRECT") {
+  if (globalThis.answer.includes(enteredGuess)) {
     const endTime = new Date().getTime();
+    time = (endTime - globalThis.startTime) / 1000;
 
-    // stop the player from guessing
-    document.getElementById("submit").disabled = true;
+    game_over = true;
 
-    // calculate time taken to get the correct answer
-    const time = (endTime - startTime) / 1000;
+    var score = calculateScore(time, wrong_guesses, enteredGuess);
 
-    // make image the original image
-    img.src = `static/imgs/${the_object.imgs[0]}`;
+    imgElem.src = "../static/imgs/obj.jpg";
+    hintsElem.innerText = `You guessed the word in ${time} seconds!`;
+    hintsElem.innerText += `\nYour score is ${score}`;
 
-    log(`You guessed correctly in ${time} seconds`);
-  } else {
-    // the guess was wrong
-    wrong_guesses++;
-    log("Wrong guess " + wrong_guesses);
+    return;
+  }
 
-    // if the player makes 1 wrong guess, don't do anything
+  guess = "";
+  inputElem.innerText = guess;
 
-    if (wrong_guesses === 2) {
-      // make image less blurry
-      img.src = `static/imgs/${the_object.imgs[2]}`;
-      log("Making image less blurry");
-    }
+  wrong_guesses++;
 
-    if (wrong_guesses === 3) {
-      // add color to image
-      img.src = `static/imgs/${the_object.imgs[3]}`;
-      log("Adding color to image");
-    }
-
-    if (wrong_guesses === 4) {
-      // give category hint
-      log(`Hint: ${the_object.category}`);
-    }
-
-    if (wrong_guesses === 5) {
-      // make image less blurry and give first letter hint
-      img.src = `static/imgs/${the_object.imgs[4]}`;
-      log("Making image less blurry");
-    }
-
-    // if the player makes 6 wrong guesses, they fail
-    if (wrong_guesses === 6) {
-      log("You failed");
-      document.getElementById("submit").disabled = true; // stop the player from guessing
-    }
+  switch (wrong_guesses) {
+    case 1:
+      imgElem.src = "../static/imgs/obj_2.jpg";
+      break;
+    case 2:
+      imgElem.src = "../static/imgs/obj_3.jpg";
+      break;
+    case 3:
+      hintsElem.innerText +=
+        "\nHint: The word is " + globalThis.answer[0].length + " letters long";
+      break;
+    case 4:
+      imgElem.src = "../static/imgs/obj_4.jpg";
+      break;
+    case 5:
+      hintsElem.innerText +=
+        "\nHint: The word starts with " + globalThis.answer[0][0];
+      break;
+    default:
+      imgElem.src = "../static/imgs/obj.jpg";
+      hintsElem.innerText =
+        "Game Over!\nThe word was " + globalThis.answer[0].toUpperCase();
+      game_over = true;
+      break;
   }
 }
 
-// get the object from the file and run the game
-// need to get the name of the json from the server
-fetch("static/json/apple.json")
-  .then((response) => response.json())
-  .then((data) => {
-    globalThis.the_object = data;
-    log(the_object);
-  })
-  .then((data) => {
-    initGame();
-    return data;
-  });
+function calculateScore(time, wrong_guesses, guess) {
+  var score = 100;
+  score -= wrong_guesses * 10;
+  score -= Math.sqrt(2.5 * time);
+
+  if (answer[0] === guess) score *= 2; // if the user got the most correct answer, double the score
+
+  return score.toFixed(0);
+}
