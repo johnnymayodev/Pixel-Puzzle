@@ -40,7 +40,8 @@ def static_file(path):
 def answer():
     synonyms = [CORRECT_ANSWER]
     synonyms.extend(api.get_synonyms(CORRECT_ANSWER))
-    return synonyms
+    # send as a string with , as separator
+    return ",".join(synonyms)
 
 
 # loop that runs every minute and checks if it's time to pick out a new object
@@ -54,7 +55,7 @@ def check_time_job():
 
 
 if __name__ == "__main__":
-    LIST_OF_ANSWERS = ["phone", "car", "dog", "cat", "apple"]
+    LIST_OF_ANSWERS = ["cat"]
     # pick a random object from the list
     CORRECT_ANSWER = random.choice(LIST_OF_ANSWERS)
     api.download_images(CORRECT_ANSWER)
