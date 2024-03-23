@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import random
 import multiprocessing
 from flask import Flask, render_template
 
@@ -28,15 +29,18 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/guess/<guess>")
-def guess(guess):
-    synonyms = api.get_synonyms(guess)
-    if None:
-        print("Error: Unable to retrieve synonyms for the given word.")
-    if guess.lower() == CORRECT_ANSWER or CORRECT_ANSWER in synonyms:
-        return "CORRECT"
-    else:
-        return "WRONG"
+@app.route("/<path:path>")
+def static_file(path):
+    if f"{path}.html" not in os.listdir("web/template"):
+        return render_template("404.html"), 404
+    return render_template(path + ".html")
+
+
+@app.route("/api/cheat")
+def answer():
+    synonyms = [CORRECT_ANSWER]
+    synonyms.extend(api.get_synonyms(CORRECT_ANSWER))
+    return synonyms
 
 
 # loop that runs every minute and checks if it's time to pick out a new object
@@ -50,7 +54,9 @@ def check_time_job():
 
 
 if __name__ == "__main__":
-    CORRECT_ANSWER = "apple"  # this should be replaced when we implement picking out a new object every 24 hours
+    LIST_OF_ANSWERS = ["phone", "car", "dog", "cat", "apple"]
+    # pick a random object from the list
+    CORRECT_ANSWER = random.choice(LIST_OF_ANSWERS)
     api.download_images(CORRECT_ANSWER)
 
     if not DEBUG:
