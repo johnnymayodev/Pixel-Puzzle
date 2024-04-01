@@ -10,6 +10,8 @@ var game_over = false; // whether the game is over or not
 const imgElem = document.getElementById("image");
 const inputElem = document.getElementById("input");
 const hintsElem = document.getElementById("hints");
+const shareBtn = document.getElementById("share");
+const helpBtn = document.getElementById("help");
 
 fetch("/api/cheat") // fetch the answer from the server to start the game
   .then((response) => response.text())
@@ -80,10 +82,14 @@ function handleGuess(enteredGuess) {
     game_over = true;
 
     var score = calculateScore(time, wrong_guesses, enteredGuess);
+    globalThis.score = score;
 
+    inputElem.hidden = true;
     imgElem.src = "../static/imgs/obj.jpg";
+    imgElem.style.height = "200px";
     hintsElem.innerText = `You guessed the word ${answer[0].toUpperCase()}\nin ${time} seconds!`;
     hintsElem.innerText += `\nYour score is ${score}`;
+    shareBtn.hidden = false;
 
     return;
   }
@@ -125,7 +131,34 @@ function calculateScore(time, wrong_guesses, guess) {
   score -= wrong_guesses * 10;
   score -= Math.sqrt(2.5 * time);
 
-  if (answer[0] === guess) score *= 2; // if the user got the most correct answer, double the score
+  if (wrong_guesses === 0) globalThis.oneGuess = true;
+
+  if (answer[0] === guess) {
+    score *= 2;
+    globalThis.rightWord = true;
+  } // if the user got the most correct answer, double the score
 
   return score.toFixed(0);
 }
+
+shareBtn.addEventListener("click", () => {
+  var message = `My Pixel Puzzle score is ${score}`;
+
+  if (globalThis.rightWord) message += "🟣";
+  if (globalThis.oneGuess) message += "🟢";
+
+  message += "\nPlay the game at https://pixelpuzzle.johnnymayo.com/";
+
+  navigator.clipboard.writeText(message);
+});
+
+helpBtn.addEventListener("click", () => {
+  alert(
+    "Type the word you think is in the image.\n" +
+      "Press Enter to submit your guess.\n\n" +
+      "If you get it wrong 6 times, you lose.\n" +
+      "Each wrong guess gives you a hint.\n\n" +
+      "When sharing your score, 🟣 means you got the correct word,\n" +
+      " 🟢 means you got it in one guess, and 🔴 means you beat it on hard mode."
+  );
+});
