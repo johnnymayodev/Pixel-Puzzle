@@ -61,10 +61,13 @@ button {
   color: var(--text-color);
   border: none;
   cursor: pointer;
+
+  transition: all 0.3s;
 }
 
 button:hover {
   background-color: var(--gray-500);
+  scale: 1.05;
 }
 
 button:active {
