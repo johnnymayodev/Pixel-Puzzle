@@ -54,7 +54,7 @@ header > * {
 button {
   width: fit-content;
   padding: 0.6rem 2rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 800;
   border-radius: 0.5rem;
   background-color: var(--gray-400);
