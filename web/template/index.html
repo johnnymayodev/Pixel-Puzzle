@@ -4,21 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pixel Puzzle</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
   </head>
   <body>
-    <h1>open the console (F12)</h1>
-    <!-- this will be removed -->
-    <img
-      id="image"
-      src="../static/imgs/obj_1.jpg"
-      alt="This is the image"
-      style="width: 600px; height: 600px"
-    />
-    <br />
-    <input id="name" type="text" name="name" />
-    <button id="submit">Submit</button>
-    <!-- this will be replaced by pressing enter -->
-    <div id="hints-container"></div>
+    <header><h1>Pixel Puzzle</h1></header>
+    <main>
+      <div id="games">
+        <button onclick="window.location.href = 'wordle'">
+          The Daily Pixel Puzzle
+        </button>
+        <button disabled onclick="window.location.href = 'unlimited'">
+          Unlimited Pixel Puzzle
+        </button>
+        <button disabled onclick="window.location.href = 'timed'">
+          Timed Pixel Puzzle
+        </button>
+        <button disabled onclick="window.location.href = 'hard'">
+          Hard Pixel Puzzle
+        </button>
+      </div>
+    </main>
   </body>
-  <script type="module" src="../static/js/index.js"></script>
 </html>

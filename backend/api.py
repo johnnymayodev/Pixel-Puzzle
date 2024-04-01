@@ -7,8 +7,7 @@ load_dotenv()
 
 # Variables for the image maker
 NUMBER_OF_IMAGES = 4
-IMAGE_SIZE = 1600
-BLUR_SCALE = 48
+BLUR_SCALE = 128
 BLUR_LEVELS = [BLUR_SCALE, BLUR_SCALE // 2, BLUR_SCALE // 2, BLUR_SCALE // 4]
 GRAYS = [1, 1, 0, 0]
 FILE_NAMES = ["obj_1", "obj_2", "obj_3", "obj_4"]
@@ -16,7 +15,6 @@ FILE_NAMES = ["obj_1", "obj_2", "obj_3", "obj_4"]
 
 def download_images(obj):
     # get the API key for Pexels
-
     PEXEL_API_KEY = os.getenv("PEXEL_API_KEY")
 
     # Variables for the API request
@@ -42,13 +40,13 @@ def download_images(obj):
         data = response.json()
         img_url = data["photos"][0]["src"]["original"]
         response = requests.get(img_url)
-        
+
         # check if imgs folder exists and create it if it doesn't
         if not os.path.exists("web/static/imgs"):
             os.makedirs("web/static/imgs")
 
         # save the image
-        with open(f"web/static/imgs/{obj}.jpg", "wb") as file:
+        with open("web/static/imgs/obj.jpg", "wb") as file:
             file.write(response.content)
 
         # make the images (blur and grayscale)
@@ -64,8 +62,7 @@ def image_maker(obj):
 
     for i in range(NUMBER_OF_IMAGES):
         try:
-            im = Image.open(f"web/static/imgs/{obj}.jpg")  # get the original image
-            im = im.resize((IMAGE_SIZE, IMAGE_SIZE))  # resize the image
+            im = Image.open("web/static/imgs/obj.jpg")  # get the original image
             im = im.filter(ImageFilter.GaussianBlur(BLUR_LEVELS[i]))  # blur the image
             if GRAYS[i]:  # if GRAYS[i] == 1 (if we want grayscale)
                 im = im.convert("L")  # convert to grayscale
@@ -73,11 +70,11 @@ def image_maker(obj):
         except Exception as e:
             print("An error occurred:", e)
 
+
 def get_synonyms(obj):
     THESAURUS_API_KEY = os.getenv("THESAURUS_API_KEY")
-    print(THESAURUS_API_KEY)
-    url = 'https://api.api-ninjas.com/v1/thesaurus?word={}'.format(obj)
-    response = requests.get(url, headers={'X-Api-Key': THESAURUS_API_KEY})
+    url = "https://api.api-ninjas.com/v1/thesaurus?word={}".format(obj)
+    response = requests.get(url, headers={"X-Api-Key": THESAURUS_API_KEY})
     if response.status_code == requests.codes.ok:
         data = response.json()
         return data["synonyms"]
