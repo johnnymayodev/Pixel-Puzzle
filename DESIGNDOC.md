@@ -39,12 +39,8 @@ Create a full-stack web application/game that includes the core features necessa
      - If a leaderboard is implemented, the player can see how they compare to others
    - Popup showing your score and time
 2. Different gamemodes
-   - Endless
-     - Practice your image guessing skills endlessly
    - Timed
-     - How many images can the player guess in 1 minute
-   - Limited guesses
-     - The player has a limited number of guesses to guess the image
+     - How long it takes the player to guess 5 or 10 images
    - Hard mode
      - There are no hints at all
 3. Input Verification
