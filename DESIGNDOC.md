@@ -23,30 +23,51 @@ Create a full-stack web application/game that includes the core features necessa
 ### Priority 0
 
 1. A function that generates levels of pixelated images from a given image
+
    - A Python script could be used
+
 2. Allow the player to input their guesses
+
 3. Give extra hints if the player is stuck
+
    - For example, the first letter of the word
+
    - The category of the object
+
    - Add color to the image (only if the image starts as black and white)
 
 ### Priority 1
 
 1. Wordle-like gamemode
+
    - There is a new image every day
+
      - We can put the date into a hash function to pick a unique new image
+
    - Time the player to see how quickly they can guess the image
+
      - If a leaderboard is implemented, the player can see how they compare to others
+
    - Popup showing your score and time
+
 2. Different gamemodes
+
    - Timed
+
      - How long it takes the player to guess 5 or 10 images
+
    - Hard mode
+
      - There are no hints at all
+
 3. Input Verification
+
    - Utilize synonyms list from WordsAPI to check if user's input is acceptable
+
 4. Sharing Button
+
    - A button to copy your time for today's image and share it with others
+
    - Link and score
 
 ### Priority 2
@@ -68,6 +89,7 @@ Create a full-stack web application/game that includes the core features necessa
    - Bio
 
 5. Upload your own image to send to a friend
+
    - Example, but for wordle - [Link](https://mywordle.strivemath.com/)
 
 ## 💻 Engineering Details
