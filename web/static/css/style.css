@@ -1,46 +1,78 @@
 @import url("../font/inter.css");
+@import url("colors.css");
+
+:root {
+  --background-color: var(--gray-200);
+  --text-color: var(--gray-800);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: var(--gray-900);
+    --text-color: var(--gray-100);
+  }
+}
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    width: clamp(300px, 80%, 1200px);
-    background-color: salmon;
-    font-family: "Inter";
-    margin: 0 auto;
+  width: clamp(300px, 80%, 1200px);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Inter";
+  margin: 0 auto;
 }
 
 h1 {
-    font-size: 3rem;
-    padding: 1rem 0;
-    font-weight: 800;
+  font-size: 3rem;
+  padding: 1rem 0;
+  font-weight: 800;
 }
 
-button {
-    height: 10rem;
-    padding: 1rem 2rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+p {
+  font-size: 24px;
+  font-weight: 500;
 }
 
 header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+  display: grid;
+  /* 3 columns */
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: center;
 }
 
+header > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  width: fit-content;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: 0.5rem;
+  background-color: var(--gray-400);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+}
 
 #games {
-    width: 80%;
-    margin: 0 auto;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr 1fr;
-    padding: 1rem;
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  padding: 1rem;
+}
+
+#games > button {
+  width: 100%;
 }

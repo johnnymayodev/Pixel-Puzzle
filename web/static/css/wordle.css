@@ -1,0 +1,42 @@
+#game {
+  width: min-content;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#image {
+  height: 50vh;
+  max-height: 400px;
+  border-radius: 18px;
+}
+
+#hints {
+  font-size: 18px;
+  text-align: center;
+}
+
+#input {
+  width: 300px;
+  max-width: 400px;
+  height: 36px;
+  padding: 0 1rem;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  background-color: var(--gray-400);
+  color: var(--text-color);
+  border-radius: 0.5rem;
+
+  overflow: hidden;
+  position: relative;
+}

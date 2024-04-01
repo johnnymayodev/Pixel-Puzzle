@@ -82,7 +82,7 @@ function handleGuess(enteredGuess) {
     var score = calculateScore(time, wrong_guesses, enteredGuess);
 
     imgElem.src = "../static/imgs/obj.jpg";
-    hintsElem.innerText = `You guessed the word in ${time} seconds!`;
+    hintsElem.innerText = `You guessed the word ${answer[0].toUpperCase()}\nin ${time} seconds!`;
     hintsElem.innerText += `\nYour score is ${score}`;
 
     return;
@@ -101,15 +101,15 @@ function handleGuess(enteredGuess) {
       imgElem.src = "../static/imgs/obj_3.jpg";
       break;
     case 3:
-      hintsElem.innerText +=
-        "\nHint: The word is " + globalThis.answer[0].length + " letters long";
+      hintsElem.innerText =
+        "Hint:\nIt's " + globalThis.answer[0].length + " letters long";
       break;
     case 4:
       imgElem.src = "../static/imgs/obj_4.jpg";
       break;
     case 5:
       hintsElem.innerText +=
-        "\nHint: The word starts with " + globalThis.answer[0][0];
+        "\nIt starts with " + globalThis.answer[0][0].toUpperCase();
       break;
     default:
       imgElem.src = "../static/imgs/obj.jpg";
