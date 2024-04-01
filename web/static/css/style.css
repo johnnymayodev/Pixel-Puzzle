@@ -51,7 +51,7 @@ header > * {
   margin: 0 auto;
 }
 
-button {
+main button {
   width: fit-content;
   padding: 0.6rem 2rem;
   font-size: 1.2rem;
@@ -65,19 +65,19 @@ button {
   transition: all 0.3s;
 }
 
-button:hover {
+main button:hover {
   background-color: var(--gray-500);
   scale: 1.05;
 }
 
-button:active {
+main button:active {
   background-color: var(--gray-600);
   scale: 0.95;
 
   transition: all 0.3s;
 }
 
-#games {
+main #games {
   width: 25%;
   margin: 0 auto;
   display: grid;
@@ -85,7 +85,7 @@ button:active {
   padding: 1rem;
 }
 
-#games > button {
+main #games > button {
   width: 100%;
   padding: 2rem;
   font-size: 1.25rem;
