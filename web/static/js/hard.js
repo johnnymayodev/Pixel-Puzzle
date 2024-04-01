@@ -5,6 +5,7 @@ var guess = ""; // the user's guess
 var wrong_guesses = 0; // the number of wrong guesses the user has made
 var time = 0; // the time it took for the user to guess the word
 var game_over = false; // whether the game is over or not
+var guesses = []; // the user's guesses
 
 // get the elements from the DOM
 const imgElem = document.getElementById("image");
@@ -74,6 +75,13 @@ function initGame() {
 
 function handleGuess(enteredGuess) {
   enteredGuess = enteredGuess.toLowerCase();
+
+  if (guesses.includes(enteredGuess)) {
+    alert("You already guessed that!");
+    return;
+  }
+
+  guesses.push(enteredGuess);
 
   if (globalThis.answer.includes(enteredGuess)) {
     const endTime = new Date().getTime();
