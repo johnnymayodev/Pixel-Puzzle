@@ -1,0 +1,14 @@
+header > h1::after {
+  display: block;
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 100px;
+
+  background: transparent url("../icons/hardmode.gif") no-repeat;
+  scale: 0.3;
+
+  transform: translateX(90px) translateY(-210px) rotate(-13deg);
+}

@@ -19,7 +19,7 @@
 }
 
 body {
-  width: clamp(300px, 80%, 1200px);
+  width: 100vw;
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: "Inter";
@@ -38,18 +38,17 @@ p {
 }
 
 header {
+  padding: 1rem 0 2rem 0;
+  width: 100vw;
   display: grid;
-  /* 3 columns */
+
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
-  padding: 1rem;
+
   align-items: center;
 }
 
 header > * {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto;
 }
 
 button {
@@ -64,15 +63,27 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background-color: var(--gray-500);
+}
+
+button:active {
+  background-color: var(--gray-600);
+  scale: 0.95;
+
+  transition: all 0.3s;
+}
+
 #games {
-  width: 80%;
+  width: 40%;
   margin: 0 auto;
   display: grid;
   gap: 2rem;
-  grid-template-columns: 1fr 1fr;
   padding: 1rem;
 }
 
 #games > button {
   width: 100%;
+  padding: 2rem;
+  font-size: 2rem;
 }
