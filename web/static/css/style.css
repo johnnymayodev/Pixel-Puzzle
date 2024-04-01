@@ -75,7 +75,7 @@ button:active {
 }
 
 #games {
-  width: 40%;
+  width: 25%;
   margin: 0 auto;
   display: grid;
   gap: 2rem;
@@ -85,5 +85,5 @@ button:active {
 #games > button {
   width: 100%;
   padding: 2rem;
-  font-size: 2rem;
+  font-size: 1.25rem;
 }
