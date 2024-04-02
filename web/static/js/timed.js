@@ -106,6 +106,15 @@ function handleGuess(enteredGuess) {
 
         game_over = true;
 
+        // set a cookie that expires at the end of the day
+        // cookie is used to track if the user played the game today
+        document.cookie = `played_timed=true; expires=${new Date().setHours(
+          23,
+          59,
+          59,
+          0
+        )}`;
+
         gameDiv.innerHTML = `<h2>You finished in ${time} seconds!</h2>`;
         gameDiv.innerHTML += '<button id="share">Share Your Score</button>';
         const shareBtn = document.getElementById("share");
