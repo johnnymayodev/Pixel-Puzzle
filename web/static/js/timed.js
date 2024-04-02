@@ -1,123 +1,158 @@
-const log = console.log;
+console.log("JavaScript is loaded");
+const log = console.log; // shortcut for console.log
 
-var guess = "";
-var correct_guesses = 0;
-var wrong_guesses = 0;
-setTimeout(endGame, 60000); //end game in 60 seconds
+var guess = ""; // the user's guess
+var wrong_guesses = 0; // the number of wrong guesses the user has made
+var time = 0; // the time it took for the user to guess the word
+var game_over = false; // whether the game is over or not
+var guesses = []; // the user's guesses
+
+// get the elements from the DOM
+const imgElem = document.getElementById("image");
+const inputElem = document.getElementById("input");
+const hintsElem = document.getElementById("hints");
+const helpBtn = document.getElementById("help");
+const loadElem = document.getElementById("loading");
+const gameDiv = document.getElementById("game");
+
+fetch("/api/cheat/timed")
+  .then((response) => response.text())
+  .then((data) => {
+    // make data a list
+    data = data.split(",");
+    for (let i = 0; i < data.length; i++) {
+      data[i] = data[i].split("+");
+    }
+    log("Answers: ", data);
+    globalThis.answers = data;
+    initGame(); // * this is where the game starts
+  });
 
 function initGame() {
-    const startTime = new Date().getTime(); // may remove this
-  
-    // get the elements from the DOM
-    const hintsContainer = document.getElementById("hints-container");
-    const img = document.getElementById("image");
-  
-    // set the global variables
-    globalThis.startTime = startTime;
-    globalThis.hintsContainer = hintsContainer;
-    globalThis.img = img;
-  
-    // listen for the user to submit a guess
-    // this will be changed to always listen for key presses and enter will submit the guess
-    document.getElementById("submit").addEventListener("click", function () {
-      // only send the guess if the user has entered something
-      if (document.getElementById("name").value !== "") {
-        guess = document.getElementById("name").value;
-        send_guess(guess);
-      }
-    });
+  // hide the loading element and show the game element
+  loadElem.style.display = "none";
+  gameDiv.style.display = "flex";
+
+  // initialize global variables for the start of the game
+  globalThis.startTime = new Date().getTime();
+  globalThis.currentObject = 0;
+
+  document.addEventListener("keydown", function (event) {
+    if (game_over) return; // if the game is over, return
+
+    const key = event.key;
+
+    // if a mac user presses cmd + backspace, clear the input
+    if (event.metaKey && key === "Backspace") {
+      guess = "";
+      inputElem.innerText = guess;
+      return;
+    }
+
+    switch (key) {
+      case "Backspace":
+        if (guess.length === 0) return;
+        guess = guess.slice(0, -1);
+        break;
+
+      case "Enter":
+        if (guess.length === 0) return;
+        handleGuess(guess);
+
+      case key.match(/[a-zA-Z ]/) && key: // if the key is a letter or space
+        if (key.length > 1) return;
+        guess += key;
+        break;
+
+      default:
+        return;
+    }
+
+    inputElem.innerText = guess.toUpperCase(); // update the input element
+  });
+}
+
+function handleGuess(enteredGuess) {
+  enteredGuess = enteredGuess.toLowerCase();
+
+  if (guesses.includes(enteredGuess)) {
+    guess = "";
+    inputElem.innerText = guess;
+    alert("You already guessed that!");
+    return;
   }
 
-  function send_guess(guess) {
-    // send the guess to the server
-    // the response will either be "CORRECT" or "WRONG"
-    fetch("/guess/" + guess)
-      .then((response) => response.text())
-      .then((data) => {
-        log("Response from server: " + data);
-        check_guess(data);
-      });
-  }
-  
-  function check_guess(response) {
-    if (response === "CORRECT") {
-      const endTime = new Date().getTime();
-  
-      // stop the player from guessing
-      //document.getElementById("submit").disabled = true;
-  
-      // calculate time taken to get the correct answer
-      const time = (endTime - startTime) / 1000;
-  
-      // make image the original image
-      img.src = `static/imgs/${the_object.imgs[0]}`;
-  
-      log(`You guessed correctly in ${time} seconds`);
-      correct_guesses++;
-      wrong_guesses = 0;
-      // code for fetching next image goes here
-      // my guess is to take elements from initGame 
-      // to get the next image or simply the call 
-      // function itself
-    } else {
-      // the guess was wrong
-      wrong_guesses++;
-      log("Wrong guess " + wrong_guesses);
-  
-      // if the player makes 1 wrong guess, don't do anything
-  
-      if (wrong_guesses === 2) {
-        // make image less blurry
-        img.src = `static/imgs/${the_object.imgs[2]}`;
-        log("Making image less blurry");
-      }
-  
-      if (wrong_guesses === 3) {
-        // add color to image
-        img.src = `static/imgs/${the_object.imgs[3]}`;
-        log("Adding color to image");
-      }
-  
-      if (wrong_guesses === 4) {
-        // give category hint
-        log(`Hint: ${the_object.category}`);
-      }
-  
-      if (wrong_guesses === 5) {
-        // make image less blurry and give first letter hint
-        img.src = `static/imgs/${the_object.imgs[4]}`;
-        log("Making image less blurry");
-      }
-  
-      // if the player makes 6 wrong guesses, the next image
-      // is displayed
-      if (wrong_guesses === 6) {
-        log("Next image");
-        // code for fetching next image goes here
-        // my guess is to take elements from initGame 
-        // to get the next image or simply the call 
-        // function itself, for incorrect guesses
-        // the counter needs to be reset back to 0
+  guesses.push(enteredGuess);
+
+  const answer = answers[currentObject];
+  if (answer.includes(enteredGuess)) {
+    switch (currentObject) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        guesses = [];
         wrong_guesses = 0;
-      }
+        guess = "";
+        inputElem.innerText = guess;
+
+        currentObject++;
+        imgElem.src = `../static/imgs/timed/${currentObject}_0.jpg`;
+
+        break;
+      default:
+        const endTime = new Date().getTime();
+        time = (endTime - globalThis.startTime) / 1000;
+
+        game_over = true;
+
+        gameDiv.innerHTML = `<h2>You finished in ${time} seconds!</h2>`;
+        gameDiv.innerHTML += '<button id="share">Share Your Score</button>';
+        const shareBtn = document.getElementById("share");
+        shareBtn.addEventListener("click", () => {
+          var message = `I finished Timed Mode in ${time} seconds!`;
+          message += "\nPlay the game at https://pixelpuzzle.johnnymayo.com/";
+
+          navigator.clipboard.writeText(message);
+        });
+    }
+  } else {
+    // if the guess is wrong
+    wrong_guesses++;
+
+    guess = "";
+    inputElem.innerText = guess;
+
+    switch (wrong_guesses) {
+      case 1:
+        imgElem.src = `../static/imgs/timed/${currentObject}_1.jpg`;
+        break;
+      case 2:
+        imgElem.src = `../static/imgs/timed/${currentObject}_2.jpg`;
+        break;
+      case 3:
+        hintsElem.innerText =
+          "Hint:\nIt's " + answer[0].length + " letters long";
+        break;
+      case 4:
+        imgElem.src = `../static/imgs/timed/${currentObject}_3.jpg`;
+        break;
+      case 5:
+        hintsElem.innerText += "\nIt starts with " + answer[0][0].toUpperCase();
+        break;
+      default:
+        // let the player keep guessing
+        break;
     }
   }
+}
 
-  function endGame() {
-    log("Time's up!");
-    log(`You guessed ${correct_guesses} images`);
-    document.getElementById("submit").disabled = true; // stop player from guessing
-  }
-
-// get the object from the file and run the game
-// need to get the name of the json from the server
-fetch("static/json/apple.json")
-.then((response) => response.json())
-.then((data) => {
-  globalThis.the_object = data;
-  log(the_object);
-})
-.then((data) => {
-  initGame();
-  return data;
+helpBtn.addEventListener("click", () => {
+  alert(
+    "Type the word you think is in the image.\n" +
+      "Press Enter to submit your guess.\n\n" +
+      "In Timed Mode, you have to guess 5 images as fast as you can!\n\n" +
+      "You have unlimited guesses per image.\n" +
+      "Each wrong guess (up to 6) gives you a hint."
+  );
 });
