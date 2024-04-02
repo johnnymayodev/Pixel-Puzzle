@@ -44,7 +44,7 @@ def answer():
     return ",".join(synonyms)
 
 
-@app.route("/api/cheat/timed/")
+@app.route("/api/timed/")
 def answer_timed():
     answers = []
     for answer in TIMED_ANSWERS:

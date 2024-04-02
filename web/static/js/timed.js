@@ -15,7 +15,7 @@ const helpBtn = document.getElementById("help");
 const loadElem = document.getElementById("loading");
 const gameDiv = document.getElementById("game");
 
-fetch("/api/cheat/timed")
+fetch("/api/timed")
   .then((response) => response.text())
   .then((data) => {
     // make data a list
