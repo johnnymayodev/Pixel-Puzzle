@@ -99,6 +99,15 @@ function handleGuess(enteredGuess) {
     hintsElem.innerText += `\nYour score is ${score}`;
     shareBtn.hidden = false;
 
+    // set a cookie that expires at the end of the day
+    // cookie is used to track if the user played the game today
+    document.cookie = `played=true; expires=${new Date().setHours(
+      23,
+      59,
+      59,
+      0
+    )}`;
+
     return;
   }
 
