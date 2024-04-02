@@ -25,9 +25,12 @@
   <script type="module" src="../static/js/hard.js"></script>
   <script>
     function createCookie(name, value) {
-      var date = new Date();
-      date.setHours(23, 59, 59, 999);
-      document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+      document.cookie = `${name}=${value}; expires=${new Date().setHours(
+        23,
+        59,
+        59,
+        0
+      )}`;
     }
 
     function readCookie(name) {
@@ -41,14 +44,26 @@
       return null;
     }
 
-    // check the 'gamemode' cookie and see if it is 'hard'
-    var gamemode = readCookie("gamemode");
-    if (gamemode == null) {
-      createCookie("gamemode", "hard");
-    } else if (gamemode == "wordle") {
-      document.getElementById("game").innerHTML = "<p>You've already started a game in normal mode.</p>";
-      document.getElementById("game").innerHTML += "<p>You must finish that game for today's image.</p>";
-      document.getElementById("game").innerHTML += "<button onclick='window.location.href=`/wordle`'>Continue Game</button>";
+    // check the 'played' cookie to see if the user has played today
+    var played = readCookie("played");
+    if (played == "true") {
+      document.getElementById("game").innerHTML =
+        "<p>You've already played today.</p>";
+      document.getElementById("game").innerHTML +=
+        "<p>Check back tomorrow for a new image.</p>";
+    } else {
+      // check the 'gamemode' cookie and see if it is 'hard'
+      var gamemode = readCookie("gamemode");
+      if (gamemode == null) {
+        createCookie("gamemode", "hard");
+      } else if (gamemode == "wordle") {
+        document.getElementById("game").innerHTML =
+          "<p>You've already started a game in normal mode.</p>";
+        document.getElementById("game").innerHTML +=
+          "<p>You must finish that game for today's image.</p>";
+        document.getElementById("game").innerHTML +=
+          "<button onclick='window.location.href=`/wordle`'>Continue Game</button>";
+      }
     }
   </script>
 </html>
