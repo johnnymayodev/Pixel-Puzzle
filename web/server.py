@@ -53,7 +53,6 @@ def answer_timed():
         answers.append("+".join(synonyms))
     # send as a string with , as separator
     return ",".join(answers)
-    
 
 
 # loop that runs every minute and checks if it's time to pick out a new object
@@ -68,18 +67,53 @@ def check_time_job():
 
 if __name__ == "__main__":
     LIST_OF_ANSWERS = [
-        "cat",
-        "dog",
+        "cupboard",
+        "pillow",
+        "coffee maker",
+        "bed",
+        "spoon",
+        "blanket",
+        "knife",
+        "stove",
+        "sink",
+        "washing machine",
+        "pot",
+        "dish",
+        "fridge",
+        "sofa",
+        "stool",
+        "cup",
+        "fork",
+        "glass",
+        "computer",
+        "notebook",
+        "desk",
+        "pencil",
+        "bookcase",
+        "book",
+        "chair",
+        "backpack",
+        "paper",
+        "glue",
+        "door",
+        "ruler",
+        "clock",
+        "whiteboard",
+        "window",
         "car",
-        "house",
-        "tree",
-        "couch",
-        "mountain",
-        "lake",
-        "river",
-        "ocean",
-        "umbrella",
+        "bicycle",
+        "banknote",
+        "wallet",
+        "bag",
+        "shirt",
+        "helmet",
+        "toothbrush",
+        "key",
+        "table",
+        "coin",
+        "shoe",
     ]
+
     # pick a random object from the list
     CORRECT_ANSWER = random.choice(LIST_OF_ANSWERS)
     api.download_images(CORRECT_ANSWER)
