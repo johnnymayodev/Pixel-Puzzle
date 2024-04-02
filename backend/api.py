@@ -1,4 +1,5 @@
 import os
+import shutil
 import requests
 from PIL import Image, ImageFilter
 from dotenv import load_dotenv
@@ -25,10 +26,8 @@ def download_images(obj):
     PARAMETERS["query"] = obj
 
     # remove old images
-    try:
-        os.system("rm web/static/imgs/*.jpg")
-    except Exception as e:
-        print("Error removing old images:", e)
+    if os.path.exists("web/static/imgs"):
+        shutil.rmtree("web/static/imgs")
 
     try:
         # make API request
@@ -83,7 +82,7 @@ def get_synonyms(obj):
 def download_images_timed_mode(objs):
     
     if os.path.exists("web/static/imgs/timed/"):
-        os.system("rm web/static/imgs/timed/*.jpg")
+        shutil.rmtree("web/static/imgs/timed/")
         
     for i, obj in enumerate(objs):
         try:
