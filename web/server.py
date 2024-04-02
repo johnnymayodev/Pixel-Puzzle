@@ -67,7 +67,6 @@ def check_time_job():
 
 if __name__ == "__main__":
     LIST_OF_ANSWERS = [
-        "cupboard",
         "pillow",
         "coffee maker",
         "bed",
@@ -87,7 +86,6 @@ if __name__ == "__main__":
         "computer",
         "notebook",
         "pencil",
-        "bookcase",
         "book",
         "chair",
         "backpack",
