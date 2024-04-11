@@ -16,7 +16,7 @@ app = Flask(__name__, template_folder="./template", static_folder="./static")
 port = 8090
 
 NEW_OBJECT_TIME = "4:00"  # a new object is picked out 4:00 every day
-DEBUG = True
+DEBUG = False
 
 
 @app.errorhandler(404)
