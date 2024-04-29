@@ -5,12 +5,29 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Variables for the image maker
-NUMBER_OF_IMAGES = 4
-BLUR_SCALE = 128
-BLUR_LEVELS = [BLUR_SCALE, BLUR_SCALE // 2, BLUR_SCALE // 2, BLUR_SCALE // 4]
-GRAYS = [1, 1, 0, 0]
-FILE_NAMES = ["obj_1", "obj_2", "obj_3", "obj_4"]
+BASE_BLUR_SCALE = 128
+difficulty_config = [
+    {
+        "file_name": "obj_1",
+        "blur_scale": BASE_BLUR_SCALE,
+        "grayscale": True,
+    },
+    {
+        "file_name": "obj_2",
+        "blur_scale": BASE_BLUR_SCALE // 2,
+        "grayscale": True,
+    },
+    {
+        "file_name": "obj_3",
+        "blur_scale": BASE_BLUR_SCALE // 2,
+        "grayscale": False,
+    },
+    {
+        "file_name": "obj_4",
+        "blur_scale": BASE_BLUR_SCALE // 4,
+        "grayscale": False,
+    }
+]
 
 
 def download_images(obj):
@@ -58,15 +75,17 @@ def download_images(obj):
 
 def image_maker(obj):
     # make sure all lists have the same length
-    assert NUMBER_OF_IMAGES == len(BLUR_LEVELS) == len(GRAYS) == len(FILE_NAMES)
 
-    for i in range(NUMBER_OF_IMAGES):
+    for i in range(len(difficulty_config)):
         try:
             im = Image.open("web/static/imgs/obj.jpg")  # get the original image
-            im = im.filter(ImageFilter.GaussianBlur(BLUR_LEVELS[i]))  # blur the image
-            if GRAYS[i]:  # if GRAYS[i] == 1 (if we want grayscale)
+            blur_scale = difficulty_config[i]['blur_scale']
+            im = im.filter(ImageFilter.GaussianBlur(blur_scale))  # blur the image
+            grayscale = difficulty_config[i]['grayscale']
+            if grayscale:  # if GRAYS[i] == 1 (if we want grayscale)
                 im = im.convert("L")  # convert to grayscale
-            im.save(f"web/static/imgs/{FILE_NAMES[i]}.jpg")  # save the image
+            file_name = difficulty_config[i]['file_name']
+            im.save(f"web/static/imgs/{file_name}.jpg")  # save the image
         except Exception as e:
             print("An error occurred:", e)
 
