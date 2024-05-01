@@ -111,11 +111,11 @@ if __name__ == "__main__":
 
     # pick a random object from the list
     CORRECT_ANSWER = random.choice(LIST_OF_ANSWERS)
-    api.download_images(CORRECT_ANSWER)
+    CORRECT_ANSWER = api.download_images(CORRECT_ANSWER)
 
     # pick 5 random answers
     TIMED_ANSWERS = random.sample(LIST_OF_ANSWERS, 5)
-    api.download_images_timed_mode(TIMED_ANSWERS)
+    TIMED_ANSWERS = api.download_images_timed_mode(TIMED_ANSWERS)
 
     if not DEBUG:
         clock = multiprocessing.Process(target=check_time_job)

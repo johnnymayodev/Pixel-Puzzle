@@ -3,6 +3,7 @@ import shutil
 import requests
 from PIL import Image, ImageFilter
 from dotenv import load_dotenv
+import random
 
 load_dotenv()
 PEXEL_API_KEY = os.getenv("PEXEL_API_KEY")
@@ -54,7 +55,28 @@ def download_images(obj):
         image_maker(obj)
     except requests.exceptions.RequestException as e:
         print("Error making API request:", e)
-        return None
+        default_image_files = os.listdir("web/static/default_imgs")
+
+        # Choose a random default image from the list
+        random_default_image = random.choice(default_image_files)
+        random_image_path = os.path.join("web/static/default_imgs", random_default_image)
+
+        new_obj = os.path.splitext(random_default_image)[0]
+        print(f"Wordle mode: Using default image - {new_obj}..")
+
+        # check if imgs folder exists and create it if it doesn't
+        if not os.path.exists("web/static/imgs"):
+            os.makedirs("web/static/imgs")
+
+        # Copy the randomly chosen default image to the "imgs" folder
+        shutil.copy(random_image_path, "web/static/imgs/obj.jpg")
+
+        # Update the value of "obj"
+        obj = new_obj
+
+        # make the images (blur and grayscale)
+        image_maker(new_obj)
+    return obj
 
 
 def image_maker(obj):
@@ -84,6 +106,7 @@ def get_synonyms(obj):
 
 
 def download_images_timed_mode(objs):
+    used_images = set()  # Keep track of used images
 
     if os.path.exists("web/static/imgs/timed/"):
         shutil.rmtree("web/static/imgs/timed/")
@@ -111,9 +134,29 @@ def download_images_timed_mode(objs):
 
         except Exception as e:
             print("Error making API request:", e)
-            return None
+            default_image_files = os.listdir("web/static/default_imgs")
+
+            # Choose a random default image from the list
+            random_default_image = random.choice(list(set(default_image_files) - used_images))
+            random_image_path = os.path.join("web/static/default_imgs", random_default_image)
+
+            new_obj = os.path.splitext(random_default_image)[0]
+            print(f"Timed mode: Using default image - {new_obj}..")
+
+            if not os.path.exists("web/static/imgs/timed"):
+                os.makedirs("web/static/imgs/timed")
+
+            # Copy the randomly chosen default image to the "imgs" folder
+            shutil.copy(random_image_path, f"web/static/imgs/timed/{i}.jpg")
+
+            # Update the value of "obj"
+            objs[i] = new_obj
+
+            # Add the used image to the set
+            used_images.add(random_default_image)
 
     image_maker_timed_mode(objs)
+    return objs
 
 
 def image_maker_timed_mode(objs):
