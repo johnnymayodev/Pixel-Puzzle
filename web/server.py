@@ -69,7 +69,7 @@ if __name__ == "__main__":
     LIST_OF_ANSWERS = [
         "pillow",
         "coffee maker",
-        "bed",
+        "hat",
         "spoon",
         "blanket",
         "knife",
